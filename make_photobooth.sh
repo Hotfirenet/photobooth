@@ -32,9 +32,12 @@ sudo rm /usr/lib/gvfs/gvfs-gphoto2-volume-monitor
 
 cd /var/www/html/
 
-# sudo git clone https://github.com/andreknieriem/photobooth ./
+sudo git clone https://github.com/Hotfirenet/photobooth.git ./
 
 sudo chown -R www-data: /var/www/html/
+
+#@sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium Default/Preferences
+#@chromium --noerrdialogs --kiosk http://localhost --disable-translate
 
 # sudo apt-get install chromium-browser
 
