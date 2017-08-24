@@ -16,8 +16,8 @@ $config['folders']['print'] = 'print';
 $config['gallery']['newest_first'] = true;
 
 // LANGUAGE
-// possible values: en, de
-$config['language'] = 'de';
+// possible values: en, de, fr
+$config['language'] = 'fr';
 
 // COMMANDS and MESSAGES
 switch($config['os']) {

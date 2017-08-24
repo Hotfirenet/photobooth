@@ -109,8 +109,8 @@ require_once('db.php');
 	                <button class="pswp__button pswp__button--share" title="Share"></button>
 	                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 	                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                    <button class="gal-print" title="Drucken"><i class="fa fa-print"></i></button>
-                    <button class="gal-qr-code" title="Qr Code öffnen"><i class="fa fa-qrcode"></i></button>
+                    <button class="gal-print" title="Imprimer"><i class="fa fa-print"></i></button>
+                    <button class="gal-qr-code" title="Qr Code"><i class="fa fa-qrcode"></i></button>
 	                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
 	                <!-- element will get class pswp__preloader--active when preloader is running -->
 	                <div class="pswp__preloader">
