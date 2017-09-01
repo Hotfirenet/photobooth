@@ -15,7 +15,7 @@ require_once('db.php');
 	<link rel="stylesheet" href="/resources/css/default-skin/default-skin.css">
 	<link rel="stylesheet" href="/resources/css/style.css" />
 	<script type="text/javascript">
-		var isdev = true;
+		var isdev = false;
         var gallery_newest_first = <?php echo ($config['gallery']['newest_first']) ? 'true' : 'false'; ?>;
 	</script>
 </head>
@@ -51,7 +51,7 @@ require_once('db.php');
 			<div class="resultInner hidden">
 			<a href="#" class="btn gallery"><i class="fa fa-th"></i> <span data-l10n="gallery"></span></a>
 			<a href="#" class="btn qrbtn"><span class="qrbtnlabel"><i class="fa fa-qrcode"></i> <span data-l10n="qr"></span></span> <div class="qr"></div></a>
-			<a href="#" class="btn printbtn"><i class="fa fa-print"></i> <span data-l10n="print"></span></a>
+			<a href="#" class="btn printbtn"><i class="fa fa-print"></i> <span data-l10n="print"></span><div class="print_page"><input type="text" name="print_code"></div></a>
 			<a href="#" class="btn newpic"><i class="fa fa-camera"></i> <span data-l10n="newPhoto"></span></a>
 			</div>
 		</div>
@@ -75,7 +75,7 @@ require_once('db.php');
 					?>
 				</div>
 			</div>
-		</div>
+		</div>	
 	</div>
 
 
@@ -139,6 +139,14 @@ require_once('db.php');
 			<div class="pswp__qr">
 
 			</div>
+			<div class="pswp__print">
+				<form>
+					<label for="print_code">Votre code</label>
+					<input type="text" id="print_code" name="print_code">
+					<button class="btn takePic" title="Print"><i class="fa fa-print"></i> <span data-l10n="printPhoto"></span></button>
+				</form>
+				<div id="print_return"></div>
+			</div>			
 	</div>
 
 	<script type="text/javascript" src="/resources/js/jquery.js"></script>

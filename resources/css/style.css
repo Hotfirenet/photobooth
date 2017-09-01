@@ -607,3 +607,23 @@ hr.small {
     float: right;
     opacity: 0.75;
 }
+.pswp__print {
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    left: 50%;
+    margin-left: -250px;
+    top: 50%;
+    margin-top: -250px;
+    z-index: 10000;
+    background-color: #FFF;
+    padding: 10%;
+}
+
+.pswp__print input {
+    height: 30px;
+    width: 200px;
+    font-size: 19px;
+    border: none;
+    border-bottom: 1px solid black;    
+}

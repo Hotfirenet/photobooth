@@ -122,16 +122,22 @@ var photoBooth = (function () {
             $('<p>').html(L10N.qrHelp).appendTo($('.qr'));
         });
 
-        // Add Print Link
-        $(document).off('click touchstart', '.printbtn');
-        $(document).on('click touchstart', '.printbtn', function (e) {
-            e.preventDefault();
-            $.ajax({
-                url: 'print.php?filename=' + encodeURI(result.img),
-            }).done(function (data) {
-                console.log(data)
-            })
-        });
+        // // Add Print Link
+        // $(document).off('click touchstart', '.printbtn');
+        // $(document).on('click touchstart', '.printbtn', function (e) {
+        //     e.preventDefault();
+        //     alert('Hello');
+        //     // $.ajax({
+        //     //     url: 'print.php?filename=' + encodeURI(result.img),
+        //     // }).done(function (data) {
+        //     //     console.log(data)
+        //     // })
+        // });
+
+        // Print
+        public.print_page = function () {
+
+        }        
 
         // Add Image to gallery and slider
         public.addImage(result.img);
@@ -262,17 +268,34 @@ var photoBooth = (function () {
             pswpQR.addClass('qr-active').fadeIn('fast');
         }
     });
+
     // print in gallery
     $(document).on('click touchstart', '.gal-print', function (e) {
         e.preventDefault();
-        var img = pswp.currItem.src;
-        img = img.replace('images/', '');
-        $.ajax({
-            url: 'print.php?filename=' + encodeURI(img),
-        }).done(function (data) {
-            console.log(data)
-        })
-    });
+
+        var pswpPrint = $('.pswp__print');
+        if (pswpPrint.hasClass('print-active')) {
+            pswpPrint.removeClass('print-active').fadeOut('fast');
+        } else {
+            var img = pswp.currItem.src;
+
+            pswpPrint.addClass('print-active').fadeIn('fast');
+        }        
+    });       
+    // // print in gallery
+    // $(document).on('click touchstart', '.gal-print', function (e) {
+    //     e.preventDefault();
+    //     var img = pswp.currItem.src;
+    //     img = img.replace('images/', '');
+
+    //     alert('hello world');
+
+    //     // $.ajax({
+    //     //     url: 'print.php?filename=' + encodeURI(img),
+    //     // }).done(function (data) {
+    //     //     console.log(data)
+    //     // })
+    // });
 
     $('#result').click(function (e) {
         var target = $(e.target);
@@ -654,6 +677,14 @@ var photoBooth = (function () {
         pswp.listen('close', function () {
             $('.pswp__qr').removeClass('qr-active').fadeOut('fast');
         });
+
+        pswp.listen('beforeChange', function () {
+            $('.pswp__print').removeClass('print-active').fadeOut('fast');
+        });
+
+        pswp.listen('close', function () {
+            $('.pswp__print').removeClass('print-active').fadeOut('fast');
+        });        
 
         pswp.init();
 

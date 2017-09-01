@@ -2,7 +2,11 @@
 
 $config = Array();
 $config['os'] = (DIRECTORY_SEPARATOR == '\\') || (strtolower(substr(PHP_OS, 0, 3)) === 'win') ? 'windows' : 'linux';
-$config['dev'] = false;
+$config['dev'] = true;
+
+//Print
+$config['print']['allow'] = true;
+$config['print']['nb'] = 1;
 
 // FOLDERS
 // change the folders to whatever you like
@@ -43,3 +47,6 @@ foreach($config['folders'] as $directory) {
         mkdir($directory, 0777);
     }
 }
+
+if($config['dev'])
+    error_reporting(E_ALL);

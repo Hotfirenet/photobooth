@@ -1,23 +1,12 @@
 #!/usr/bin/env bash
 # Make a photobooth
 
-# mkfifo fifo.mjpg
-# gphoto2 --capture-movie --stdout> fifo.mjpg &
-# omxplayer fifo.mjpg
-# https://www.raspberrypi.org/forums/viewtopic.php?f=91&t=117102sudo rm /usr/share/gvfs/mounts/gphoto2.mountgit clone https://github.com/reuterbal/photobooth/home/pi/Desktop/Photobooth.desktop
-
-sudo sh -c "echo 'display_rotate=2' >> /boot/config.txt"
-
-apt-get -y remove --purge wolfram-engine
-apt-get -y remove --purge libreoffice*
-apt-get -y remove --purgeminecraft-pi
-apt-get -y remove --purgesonic-pi
-
 sudo apt-get clean
 sudo apt-get autoremove
 
 sudo apt-get update && sudo apt-get -y dist-upgrade
-sudo apt-get -y install git apache2 php5 php5-gd gphoto2 libav-tools
+sudo apt-get -y install git apache2 php5 php5-gd
+
 
 sudo sh -c "echo 'www-data ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers"
 
@@ -30,18 +19,41 @@ sudo rm /usr/share/gvfs/mounts/gphoto2.mount
 sudo rm /usr/share/gvfs/remote-volume-monitors/gphoto2.monitor
 sudo rm /usr/lib/gvfs/gvfs-gphoto2-volume-monitor
 
-cd /var/www/html/
+sudo rm -r /var/www/html
 
-sudo git clone https://github.com/Hotfirenet/photobooth.git ./
+cd /var/www/
+
+sudo git clone https://github.com/Hotfirenet/photobooth.git html
 
 sudo chown -R www-data: /var/www/html/
 
-#@sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium Default/Preferences
-#@chromium --noerrdialogs --kiosk http://localhost --disable-translate
+wget https://storage.googleapis.com/golang/go1.9.linux-armv6l.tar.gz
+sudo tar -C /usr/local -xzf go1.9.linux-armv6l.tar.gz
+export PATH=$PATH:/usr/local/go/bin
 
-# sudo apt-get install chromium-browser
+cd
 
-# sudo apt-get install cups
+git clone https://github.com/gonzaloserrano/go-selphy-cp.git
 
+cd go-selphy-cp
+
+sudo make
+
+#Use ./selphy -printer_ip="192.168.1.115" picture.jpg
+
+# sudo apt-get -y install cups
 
 # sudo usermod -a -G lpadmin pi
+
+# #sudo sh -c "sed -i 's/Listen localhost:631/Port 631/g' /etc/cups/cupsd.conf > /dev/null 2>&1"
+
+# #sudo sh -c "echo '' > /etc/cups/cupsd.conf"
+
+# sudo systemctl start cups
+
+# sudo systemctl enable cups
+
+# sudo apt-get install -y samba samba-common-bin
+
+# sudo mv /etc/samba/smb.conf /etc/samba/smb.conf.old
+

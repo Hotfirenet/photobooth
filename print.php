@@ -3,6 +3,18 @@
 require_once('config.inc.php');
 require_once('db.php');
 
+function goPrint( $config, $filename_print )
+{
+    $printimage = shell_exec(
+        sprintf(
+            $config['print']['cmd'],
+            $filename_print
+        )
+    ); 
+
+    return $printimage;
+}
+
 $filename = trim(basename($_GET['filename']));
 if($pos = strpos($filename, '?')) {
     $parts = explode('?', $filename);
@@ -15,15 +27,11 @@ $filename_codes = $config['folders']['qrcodes'] . DIRECTORY_SEPARATOR . $filenam
 $filename_thumb = $config['folders']['thumbs'] . DIRECTORY_SEPARATOR . $filename;
 $status = false;
 
-// exit with error
-if(!file_exists($filename_source)) {
-    echo json_encode(array('status' => sprintf('file "%s" not found', $filename_source)));
-}
-
 // print
 if(file_exists($filename_source)) {
     // copy and merge
-    if(!file_exists($filename_print)) {
+    if(!file_exists($filename_print)) 
+    {
         // create qr code
         if(!file_exists($filename_codes)) {
             include('resources/lib/phpqrcode/qrlib.php');
@@ -49,14 +57,60 @@ if(file_exists($filename_source)) {
         imagedestroy($code);
         imagedestroy($source);
     }
-    
-    // print image
-    // fixme: move the command to the config.inc.php
-    $printimage = shell_exec(
-        sprintf(
-            $config['print']['cmd'],
-            $filename_print
-        )
-    );
-    echo json_encode(array('status' => 'ok', 'msg' => $printimage || ''));
+
+    if($config['print']['allow']) 
+    {
+        if( isset( $_GET['print_code'] ) ) 
+        {
+            $printCode = trim( $_GET['print_code'] );
+
+            if( file_exists( $printCodeDB = 'printCodeDB.txt' ) )
+            {
+                $codeValue = json_decode( file_get_contents( $printCodeDB ), true );
+
+                if( array_key_exists( $printCode, $codeValue ) )
+                {
+                    if( $codeValue[$printCode] >= (int)$config['print']['nb'])
+                    {
+                        $status = 'nOk';
+                        $msg = 'You use your print quota!';
+                    }
+                    else
+                    {
+                        $status = goPrint( $config, $filename_print );
+                        $codeValue[$printCode] = $codeValue[$printCode] + 1;
+
+                        $codeValue = json_encode( $codeValue );
+                        file_put_contents( $printCodeDB,  $codeValue );
+                    }
+                }
+                else
+                {
+                    $status = 'nOk';
+                    $msg = 'You code is unknow!';                    
+                }
+            }
+            else
+            {
+                $status = 'nOk';
+                $msg = 'No printCodeDB file !';
+            }                
+        }
+        else
+        {
+            $status = 'nOk';
+            $msg = 'Print code is mandatory';            
+        }      
+    }  
+    else
+    {
+        $status = goPrint( $config, $filename_print );
+    }
+
+
+} else {
+    $status = sprintf('file "%s" not found', $filename_source);
 }
+
+echo json_encode(array('status' => $status, 'msg' => $msg));
+exit;

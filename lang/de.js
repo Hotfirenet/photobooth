@@ -10,5 +10,6 @@ L10N = {
 	"qrHelp": "Um das Bild auf dein Handy zu laden, verbinde dich mit dem WLAN <strong>photobooth<\/strong>",
 	"error": "Es ist ein Fehler aufgetreten, bitte versuche es erneut",
 	"reload": "Seite neu laden",
-    "print": "Drucken"
+    "print": "Drucken",
+    "printPhoto": "Valider mon code"
 }
